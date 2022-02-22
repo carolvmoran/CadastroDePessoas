@@ -3,9 +3,14 @@ import Image from "next/image";
 import Botao from "../components/Botao";
 import Layout from "../components/Layout";
 import Tabela from "../components/Tabela";
+import Formulario from "../components/Formulario";
 import Cliente from "../core/Cliente";
+import { useState } from "react";
 
 export default function Home() {
+  const [visivel, setVisivel] = useState<"tabela" | "form">("tabela");
+  const [cliente, setCliente] = useState<Cliente>(Cliente.vazio());
+
   const clientes = [
     new Cliente("Ana", 34, "1"),
     new Cliente("Bia", 45, "2"),
@@ -13,8 +18,22 @@ export default function Home() {
     new Cliente("João", 54, "4"),
   ];
 
-  function clienteSelecionado(cliente: Cliente) {}
-  function clienteExcluido(cliente: Cliente) {}
+  function clienteSelecionado(cliente: Cliente) {
+    setCliente(cliente);
+    setVisivel("form");
+  }
+  function clienteExcluido(cliente: Cliente) {
+    console.log(`Excluir... ${cliente.nome}`);
+  }
+  function novoCliente() {
+    setCliente(Cliente.vazio());
+    setVisivel("form");
+  }
+  function salvarCliente(cliente: Cliente) {
+    console.log(cliente);
+    setVisivel("tabela");
+  }
+
   return (
     <div
       className={`
@@ -24,14 +43,26 @@ export default function Home() {
   `}
     >
       <Layout titulo="Cadastro Simples">
-        <div className={`flex justify-end`}>
-          <Botao className="mb-4">Novo Cliente</Botao>
-        </div>
-        <Tabela
-          clientes={clientes}
-          clienteSelecionado={clienteSelecionado}
-          clienteExcluido={clienteExcluido}
-        ></Tabela>
+        {visivel === "tabela" ? (
+          <>
+            <div className={`flex justify-end`}>
+              <Botao onClick={novoCliente} className="mb-4">
+                Novo Cliente
+              </Botao>
+            </div>
+            <Tabela
+              clientes={clientes}
+              clienteSelecionado={clienteSelecionado}
+              clienteExcluido={clienteExcluido}
+            ></Tabela>
+          </>
+        ) : (
+          <Formulario
+            cancelado={() => setVisivel("tabela")}
+            clienteMudou={salvarCliente}
+            cliente={cliente}
+          />
+        )}
       </Layout>
     </div>
   );
