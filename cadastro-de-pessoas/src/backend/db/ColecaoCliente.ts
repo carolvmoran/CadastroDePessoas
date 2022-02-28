@@ -30,7 +30,7 @@ conversor = {
     async excluir(cliente: Cliente): Promise<void> {
         return this.colecao().doc(cliente.id).delete()
     }
-    async oberTodos(): Promise<Cliente[]> {
+    async obterTodos(): Promise<Cliente[]> {
         const query = await this. colecao().get()
         return query.docs.map(doc => doc.data()) ?? []
     }
