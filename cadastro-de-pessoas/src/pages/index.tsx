@@ -42,7 +42,7 @@ export default function Home() {
           </>
         ) : (
           <Formulario
-            cancelado={() => exibirTabela}
+            cancelado={() => exibirTabela()}
             clienteMudou={salvarCliente}
             cliente={cliente}
           />

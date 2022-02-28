@@ -21,13 +21,13 @@ export default function useClientes() {
     function obterTodos() {
       repo.obterTodos().then((clientes) => {
         setClientes(clientes);
-        exibirTabela;
+        exibirTabela();
       });
     }
   
     function clienteSelecionado(cliente: Cliente) {
       setCliente(cliente);
-      exibirFormulario;
+      exibirFormulario();
     }
     async function clienteExcluido(cliente: Cliente) {
       await repo.excluir(cliente);
@@ -35,7 +35,7 @@ export default function useClientes() {
     }
     function novoCliente() {
       setCliente(Cliente.vazio());
-      exibirFormulario;
+      exibirFormulario();
     }
     async function salvarCliente(cliente: Cliente) {
       await repo.salvar(cliente);
